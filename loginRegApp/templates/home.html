@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+</head>
+<body>
+    <h1>Welcome {{loggedinuser.firstName}}! </h1>
+    <a href="/logout">Logout</a>
+    <a href="/addPost">Add a post</a>
+    {{allposts}}
+    <h3>Rants you like:</h3>
+    <table>
+        <tr>
+          <th>Post Content</th>
+          <th>Posted By</th>
+          <th>Date Posted</th>
+          <th>Action</th>
+        </tr>
+        {% for postObj in likedPosts %}
+        <tr>
+          <td><a href="/rants/{{postObj.id}}">{{postObj.content}}</a></td>
+          <td>{{postObj.uploader.firstName.capitalize}}</td>
+          <td>{{postObj.created_at}}</td>
+          <td><a href="/unlike/{{postObj.id}}">Unlike Rant</a> | {% if loggedinuser == postObj.uploader %} <a href="">Delete</a>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <h3>Rants you don't like:</h3>
+      <table>
+        <tr>
+          <th>Post Content</th>
+          <th>Posted By</th>
+          <th>Date Posted</th>
+          <th>Action</th>
+        </tr>
+        {% for postObj in notlikedPosts %}
+        <tr>
+          <td><a href="/rants/{{postObj.id}}">{{postObj.content}}</a></td>
+          <td>{{postObj.uploader.firstName.capitalize}}</td>
+          <td>{{postObj.created_at}}</td>
+          <td><a href="/like/{{postObj.id}}">Like Rant</a></td>
+        </tr>
+        {% endfor %}
+      </table>
+</body>
+</html>
